@@ -3,7 +3,9 @@ import 'package:go_router/go_router.dart';
 
 import '../app_theme.dart';
 import '../screens/base_screen.dart';
+import '../screens/splash_screen.dart';
 
+const route_splash = '/splash';
 const route_calendar = "/";
 const route_results = '/results';
 const route_add_new_game = '/add_new';
@@ -12,8 +14,12 @@ const route_settings = '/settings';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
-    initialLocation: '/',
+    initialLocation: route_splash,
     routes: [
+      GoRoute(
+        path: route_splash,
+        builder: (context, state) => const SplashScreen(),
+      ),
       ShellRoute(
         builder: (context, state, child) {
           return ScaffoldWithBottomNavigation(child: child);
