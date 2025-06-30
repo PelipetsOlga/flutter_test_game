@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'di/injection_container.dart' as di;
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await di.initializeDependencies();
   runApp(const MyApp());
 }
 
@@ -57,7 +60,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  void _incrementCounter() {
+  void _incrementCounter() async {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -66,6 +69,29 @@ class _MyHomePageState extends State<MyHomePage> {
       // called again, and so nothing would appear to happen.
       _counter++;
     });
+
+    // Read all teams data from repository and print to log
+    try {
+      final repository = di.teamRepository;
+      final allTeams = await repository.getAllTeamNames();
+      
+      print('=== ALL TEAMS DATA ===');
+      print('Total teams: ${allTeams.length}');
+      print('Teams: ${allTeams.join(', ')}');
+      print('=====================');
+      
+      // Also get leagues data
+      final leagues = await repository.getTeams();
+      print('=== LEAGUES DATA ===');
+      for (final league in leagues) {
+        print('${league.league} (${league.country}): ${league.teams.length} teams');
+        print('  Teams: ${league.teams.join(', ')}');
+      }
+      print('===================');
+      
+    } catch (e) {
+      print('Error loading teams data: $e');
+    }
   }
 
   @override
@@ -112,12 +138,17 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            const SizedBox(height: 20),
+            const Text(
+              'Click the + button to load teams data',
+              style: TextStyle(fontSize: 12, color: Colors.grey),
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        tooltip: 'Load Teams Data',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
