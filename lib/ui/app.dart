@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-
 import 'app_theme.dart';
-import 'home_page.dart';
+import 'router/app_router.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+    return MaterialApp.router(
+      title: 'Football Game',
       theme: AppTheme.lightTheme,
-      home: const GameApp(title: 'Flutter Demo Home Page'),
+      routerConfig: AppRouter.router,
     );
   }
 }
