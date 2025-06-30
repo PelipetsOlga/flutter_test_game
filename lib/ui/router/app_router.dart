@@ -106,7 +106,9 @@ class _ScaffoldWithBottomNavigationState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: widget.child,
+      body: SafeArea(
+        child: widget.child,
+      ),
       backgroundColor: AppTheme.primaryBlue,
       bottomNavigationBar: GameBottomBar(navigationItems: _navigationItems),
     );
