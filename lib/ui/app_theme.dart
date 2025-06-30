@@ -117,3 +117,29 @@ class AppTheme {
     );
   }
 }
+
+// Helper class for converting Figma pixels to Flutter dimensions
+class FigmaHelper {
+  static double px(BuildContext context, double figmaPx) {
+    final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
+    return figmaPx / devicePixelRatio;
+  }
+  
+  // Helper for common sizes
+  static double iconSize(BuildContext context, double figmaPx) => px(context, figmaPx);
+  static double containerSize(BuildContext context, double figmaPx) => px(context, figmaPx);
+  static double fontSize(BuildContext context, double figmaPx) => px(context, figmaPx);
+  static EdgeInsets padding(BuildContext context, double horizontal, double vertical) {
+    return EdgeInsets.symmetric(
+      horizontal: px(context, horizontal),
+      vertical: px(context, vertical),
+    );
+  }
+  
+  // Helper for color opacity conversion
+  static Color withOpacity(Color color, double percentageOpacity) {
+    // Convert percentage (0-100) to decimal (0.0-1.0)
+    final decimalOpacity = percentageOpacity / 100.0;
+    return color.withOpacity(decimalOpacity);
+  }
+}

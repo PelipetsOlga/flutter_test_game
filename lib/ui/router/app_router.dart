@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../app_theme.dart';
 import '../screens/base_screen.dart';
 import '../screens/splash_screen.dart';
+import 'bottom_bar.dart';
 
 const route_splash = '/splash';
 const route_calendar = "/";
@@ -33,22 +34,22 @@ class AppRouter {
           GoRoute(
             path: route_results,
             name: 'results',
-            builder: (context, state) =>  BaseWidget(title: "results"),
+            builder: (context, state) => BaseWidget(title: "results"),
           ),
           GoRoute(
             path: route_add_new_game,
             name: 'add_new',
-            builder: (context, state) =>  BaseWidget(title: "Add new Game"),
+            builder: (context, state) => BaseWidget(title: "Add new Game"),
           ),
           GoRoute(
             path: route_statistics,
             name: 'statistic',
-            builder: (context, state) =>  BaseWidget(title: "Statistics"),
+            builder: (context, state) => BaseWidget(title: "Statistics"),
           ),
           GoRoute(
             path: route_settings,
             name: 'settings',
-            builder: (context, state) =>  BaseWidget(title: "Settings"),
+            builder: (context, state) => BaseWidget(title: "Settings"),
           ),
         ],
       ),
@@ -75,27 +76,27 @@ class _ScaffoldWithBottomNavigationState
 
   final List<NavigationItem> _navigationItems = [
     NavigationItem(
-      icon: Icons.calendar_month,
+      svgAssetPath: 'assets/icons/calendar.svg',
       label: 'Calendar',
       route: route_calendar,
     ),
     NavigationItem(
-      icon: Icons.percent,
+      svgAssetPath: 'assets/icons/results.svg',
       label: 'Results',
       route: route_results,
     ),
     NavigationItem(
-      icon: Icons.add,
+      svgAssetPath: 'assets/icons/add_game.svg',
       label: 'Add new Game',
       route: route_add_new_game,
     ),
     NavigationItem(
-      icon: Icons.leaderboard,
+      svgAssetPath: 'assets/icons/statistics.svg',
       label: 'Statistics',
       route: route_statistics,
     ),
     NavigationItem(
-      icon: Icons.settings,
+      svgAssetPath: 'assets/icons/settings.svg',
       label: 'Settings',
       route: route_settings,
     ),
@@ -105,88 +106,8 @@ class _ScaffoldWithBottomNavigationState
   Widget build(BuildContext context) {
     return Scaffold(
       body: widget.child,
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              AppTheme.warmOrange,
-              AppTheme.brightOrange,
-            ],
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              blurRadius: 10,
-              offset: const Offset(0, -2),
-            ),
-          ],
-        ),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: _navigationItems.asMap().entries.map((entry) {
-                final index = entry.key;
-                final item = entry.value;
-                final isSelected =
-                    GoRouterState.of(context).uri.path == item.route;
-
-                return GestureDetector(
-                  onTap: () {
-                    if (!isSelected) {
-                      context.go(item.route);
-                    }
-                  },
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: isSelected
-                          ? Colors.white.withOpacity(0.2)
-                          : Colors.transparent,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          item.icon,
-                          color: Colors.white,
-                          size: 24,
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          item.label,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
-        ),
-      ),
+      backgroundColor: AppTheme.primaryBlue,
+      bottomNavigationBar: GameBottomBar(navigationItems: _navigationItems),
     );
   }
-}
-
-class NavigationItem {
-  final IconData icon;
-  final String label;
-  final String route;
-
-  NavigationItem({
-    required this.icon,
-    required this.label,
-    required this.route,
-  });
 }

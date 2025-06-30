@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../app_theme.dart';
 
 class BaseWidget extends StatelessWidget {
@@ -9,10 +10,6 @@ class BaseWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        backgroundColor: AppTheme.primaryBlue,
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -29,14 +26,6 @@ class BaseWidget extends StatelessWidget {
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'This is the $title screen',
-              style: const TextStyle(
-                fontSize: 16,
-                color: Colors.white70,
               ),
             ),
           ],
