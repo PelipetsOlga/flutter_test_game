@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../../app_theme.dart';
+import '../../styles.dart';
 
 class AddGameScreenWidget extends StatelessWidget {
   const AddGameScreenWidget({super.key});
@@ -18,15 +20,35 @@ class AddGameScreenWidget extends StatelessWidget {
           top: FigmaHelper.px(context, 110),
           bottom: FigmaHelper.px(context, 50),
         ),
-        child: const Center(
-          child: Text(
-            'Add new matches screen content will go here',
-            style: TextStyle(
-              color: AppTheme.white,
-              fontSize: 18,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Add New Matches',
+              style: AppTypography.rootTabScreenTitle(context),
             ),
-            textAlign: TextAlign.center,
-          ),
+            const SizedBox(height: 40),
+            Text(
+              'Country',
+              style: AppTypography.formLabel(context),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              'Leagues',
+              style: AppTypography.formLabel(context),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              'Teams',
+              style: AppTypography.formLabel(context),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              'Date',
+              style: AppTypography.formLabel(context),
+            ),
+            // More content will be added here
+          ],
         ),
       ),
     );
