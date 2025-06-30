@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../app_theme.dart';
 import '../screens/base_screen.dart';
 import '../screens/splash_screen.dart';
+import '../screens/add_new/add_game_screen.dart';
 import 'bottom_bar.dart';
 
 const route_splash = '/splash';
@@ -39,7 +40,7 @@ class AppRouter {
           GoRoute(
             path: route_add_new_game,
             name: 'add_new',
-            builder: (context, state) => BaseWidget(title: "Add new Game"),
+            builder: (context, state) => const AddGameScreenWidget(),
           ),
           GoRoute(
             path: route_statistics,
