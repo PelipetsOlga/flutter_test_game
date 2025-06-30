@@ -30,4 +30,15 @@ class AppTypography {
       color: AppTheme.white,
     );
   }
+
+  static TextStyle spinnerTitle(BuildContext context) {
+    return TextStyle(
+      fontFamily: 'Proxima Nova',
+      fontWeight: FontWeight.w600,
+      fontSize: FigmaHelper.px(context, 52),
+      height: 1.0,
+      letterSpacing: -0.02,
+      color: Colors.white,
+    );
+  }
 }

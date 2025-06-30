@@ -10,3 +10,12 @@ const orangeVerticalGradient =  LinearGradient(
     AppTheme.brightOrange, // #F01515
   ],
 );
+
+const spinnerGradient = LinearGradient(
+  begin: Alignment.topLeft,
+  end: Alignment.bottomRight,
+  colors: [
+    AppTheme.lightBlue,  // #003B7C
+    Color(0xFF043872),   // #043872
+  ],
+);

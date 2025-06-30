@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../app_theme.dart';
 import '../../styles.dart';
+import '../../widgets/text_spinner.dart';
 
 class AddGameScreenWidget extends StatelessWidget {
   const AddGameScreenWidget({super.key});
@@ -42,20 +43,60 @@ class AddGameScreenWidget extends StatelessWidget {
               'Country',
               style: AppTypography.formLabel(context),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 17),
+            TextSpinner(
+              items: ['England', 'Spain', 'Germany', 'Italy', 'France', 'Netherlands'],
+              selectedValue: 'England',
+              onChanged: (value) {
+                print('Selected country: $value');
+              },
+            ),
+            const SizedBox(height: 40),
             Text(
               'Leagues',
               style: AppTypography.formLabel(context),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 17),
+            TextSpinner(
+              items: ['England', 'Spain', 'Germany', 'Italy', 'France', 'Netherlands'],
+              selectedValue: 'England',
+              onChanged: (value) {
+                print('Selected country: $value');
+              },
+            ),
+            const SizedBox(height: 40),
             Text(
               'Teams',
               style: AppTypography.formLabel(context),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 17),
+            TextSpinner(
+              items: ['England', 'Spain', 'Germany', 'Italy', 'France', 'Netherlands'],
+              selectedValue: 'England',
+              onChanged: (value) {
+                print('Selected country: $value');
+              },
+            ),
+            const SizedBox(height: 10),
+            TextSpinner(
+              items: ['England', 'Spain', 'Germany', 'Italy', 'France', 'Netherlands'],
+              selectedValue: 'England',
+              onChanged: (value) {
+                print('Selected country: $value');
+              },
+            ),
+            const SizedBox(height: 40),
             Text(
               'Date',
               style: AppTypography.formLabel(context),
+            ),
+            const SizedBox(height: 17),
+            TextSpinner(
+              items: ['England', 'Spain', 'Germany', 'Italy', 'France', 'Netherlands'],
+              selectedValue: 'England',
+              onChanged: (value) {
+                print('Selected country: $value');
+              },
             ),
             // More content will be added here
           ],
