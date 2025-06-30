@@ -14,7 +14,7 @@ class AppTypography {
       // 100% line height
       letterSpacing: -0.02,
       // -2% letter spacing
-      color: Colors.white,
+      color: AppTheme.white,
     );
   }
 
@@ -27,7 +27,7 @@ class AppTypography {
       // 100% line height
       letterSpacing: -0.02,
       // -2% letter spacing
-      color: Colors.white,
+      color: AppTheme.white,
     );
   }
 }

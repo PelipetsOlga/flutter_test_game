@@ -23,9 +23,19 @@ class AddGameScreenWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Add New Matches',
-              style: AppTypography.rootTabScreenTitle(context),
+            Row(
+              children: [
+                Container(
+                  width: FigmaHelper.px(context, 12),
+                  height: FigmaHelper.px(context, 62),
+                  color: AppTheme.accentOrange,
+                ),
+                SizedBox(width: FigmaHelper.px(context, 31)),
+                Text(
+                  'Add New Matches',
+                  style: AppTypography.rootTabScreenTitle(context),
+                ),
+              ],
             ),
             const SizedBox(height: 40),
             Text(
