@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_game/ui/widgets/svg_icon.dart';
+
 import '../app_theme.dart';
 import '../gradients.dart';
 import '../styles.dart';
@@ -8,16 +9,12 @@ class TextSpinner extends StatefulWidget {
   final List<String> items;
   final String? selectedValue;
   final Function(String) onChanged;
-  final double? width;
-  final double? height;
 
   const TextSpinner({
     super.key,
     required this.items,
     this.selectedValue,
     required this.onChanged,
-    this.width,
-    this.height,
   });
 
   @override
@@ -31,14 +28,56 @@ class _TextSpinnerState extends State<TextSpinner> {
   @override
   void initState() {
     super.initState();
-    _selectedValue = widget.selectedValue ?? widget.items.first;
+    _selectedValue = widget.selectedValue;
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.items.isEmpty) {
+      return meaninglessSpinner();
+    } else {
+      return meaningfullSpinner();
+    }
+  }
+
+  Widget arrowDown(BuildContext context) => CustomSvgIcon(
+        assetPath: 'assets/icons/triangle_arrow_down.svg',
+        size: FigmaHelper.iconSize(context, 29),
+        color: AppTheme.white,
+        isSelected: true,
+      );
+
+  Widget meaninglessSpinner() {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        gradient: spinnerGradient,
+        borderRadius: BorderRadius.circular(FigmaHelper.px(context, 22)),
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: FigmaHelper.px(context, 34),
+          vertical: FigmaHelper.px(context, 45),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Text(
+                'Select...',
+                style: AppTypography.spinnerTitle(context),
+              ),
+            ),
+            arrowDown(context),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget meaningfullSpinner() {
     return Column(
       children: [
-        // Collapsed view - clickable spinner
         GestureDetector(
           onTap: () {
             setState(() {
@@ -46,7 +85,7 @@ class _TextSpinnerState extends State<TextSpinner> {
             });
           },
           child: Container(
-            width:  double.infinity,
+            width: double.infinity,
             decoration: BoxDecoration(
               gradient: spinnerGradient,
               borderRadius: BorderRadius.circular(FigmaHelper.px(context, 22)),
@@ -61,27 +100,22 @@ class _TextSpinnerState extends State<TextSpinner> {
                 children: [
                   Expanded(
                     child: Text(
-                      _selectedValue ?? '',
+                      _selectedValue ?? 'Select...',
                       style: AppTypography.spinnerTitle(context),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  CustomSvgIcon(
-                    assetPath: 'assets/icons/triangle_arrow_down.svg',
-                    size: FigmaHelper.iconSize(context, 29),
-                    color:  AppTheme.white,
-                    isSelected: true,
-                  ),
+                  arrowDown(context),
                 ],
               ),
             ),
           ),
         ),
-        
+
         // Expanded dropdown list
         if (_isExpanded)
           Container(
-            width: widget.width ?? double.infinity,
+            width: double.infinity,
             margin: EdgeInsets.only(top: FigmaHelper.px(context, 8)),
             decoration: BoxDecoration(
               gradient: spinnerGradient,
@@ -105,8 +139,11 @@ class _TextSpinnerState extends State<TextSpinner> {
                       vertical: FigmaHelper.px(context, 15),
                     ),
                     decoration: BoxDecoration(
-                      color: isSelected ? Colors.white.withOpacity(0.2) : Colors.transparent,
-                      borderRadius: BorderRadius.circular(FigmaHelper.px(context, 22)),
+                      color: isSelected
+                          ? Colors.white.withOpacity(0.2)
+                          : Colors.transparent,
+                      borderRadius:
+                          BorderRadius.circular(FigmaHelper.px(context, 22)),
                     ),
                     child: Text(
                       item,
@@ -127,4 +164,4 @@ class _TextSpinnerState extends State<TextSpinner> {
       ],
     );
   }
-} 
+}

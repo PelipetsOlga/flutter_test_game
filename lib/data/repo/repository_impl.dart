@@ -61,4 +61,38 @@ class RepositoryImpl implements TeamRepository {
       throw Exception('Failed to load teams data: $e');
     }
   }
+
+  @override
+  Future<List<domain.League>> getCountries() async {
+    if (_cachedData == null) {
+      await _loadData();
+    }
+    
+    // Get unique countries from the data
+    final countries = <String>{};
+    for (final league in _cachedData!.teams) {
+      countries.add(league.country);
+    }
+    
+    // Convert to League objects with empty teams list
+    return countries.map((country) => domain.League(
+      league: '',
+      country: country,
+      teams: [],
+    )).toList();
+  }
+
+  @override
+  Future<List<String>> getLeaguesNamesByCountry(String country) async {
+    if (_cachedData == null) {
+      await _loadData();
+    }
+    
+    // Get league names for the specified country
+    final leagues = _cachedData!.teams.where((league) => 
+      league.country.toLowerCase() == country.toLowerCase()
+    ).map((league) => league.league).toList();
+    
+    return leagues;
+  }
 } 
