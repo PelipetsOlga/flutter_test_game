@@ -1,0 +1,100 @@
+{
+  "teams": [
+    {
+      "league": "Premier League",
+      "country": "England",
+      "teams": [
+        "Arsenal", "Aston Villa", "Bournemouth", "Brentford", "Brighton", "Burnley",
+        "Chelsea", "Crystal Palace", "Everton", "Fulham", "Liverpool", "Luton Town",
+        "Manchester City", "Manchester United", "Newcastle United", "Nottingham Forest",
+        "Sheffield United", "Tottenham Hotspur", "West Ham United", "Wolverhampton Wanderers"
+      ]
+    },
+    {
+      "league": "La Liga",
+      "country": "Spain",
+      "teams": [
+        "Alavés", "Almería", "Athletic Bilbao", "Atlético Madrid", "Barcelona", "Cádiz",
+        "Celta Vigo", "Getafe", "Girona", "Granada", "Las Palmas", "Mallorca",
+        "Osasuna", "Rayo Vallecano", "Real Betis", "Real Madrid", "Real Sociedad",
+        "Sevilla", "Valencia", "Villarreal"
+      ]
+    },
+    {
+      "league": "Bundesliga",
+      "country": "Germany",
+      "teams": [
+        "Augsburg", "Bayer Leverkusen", "Bayern Munich", "Bochum", "Borussia Dortmund",
+        "Borussia Mönchengladbach", "Darmstadt", "Eintracht Frankfurt", "Freiburg",
+        "Heidenheim", "Hoffenheim", "Köln", "Mainz", "RB Leipzig", "Stuttgart",
+        "Union Berlin", "Werder Bremen", "Wolfsburg"
+      ]
+    },
+    {
+      "league": "Serie A",
+      "country": "Italy",
+      "teams": [
+        "Atalanta", "Bologna", "Cagliari", "Empoli", "Fiorentina", "Frosinone",
+        "Genoa", "Inter Milan", "Juventus", "Lazio", "Lecce", "AC Milan",
+        "Monza", "Napoli", "Roma", "Salernitana", "Sassuolo", "Torino",
+        "Udinese", "Verona"
+      ]
+    },
+    {
+      "league": "Ligue 1",
+      "country": "France",
+      "teams": [
+        "Clermont", "Le Havre", "Lens", "Lille", "Lorient", "Lyon",
+        "Marseille", "Metz", "Monaco", "Montpellier", "Nantes", "Nice",
+        "Paris Saint-Germain", "Reims", "Rennes", "Strasbourg", "Toulouse"
+      ]
+    },
+    {
+      "league": "Eredivisie",
+      "country": "Netherlands",
+      "teams": [
+        "Ajax", "AZ Alkmaar", "Excelsior", "Feyenoord", "Fortuna Sittard",
+        "Go Ahead Eagles", "Heerenveen", "Heracles Almelo", "NEC", "PSV Eindhoven",
+        "RKC Waalwijk", "Sparta Rotterdam", "Twente", "Utrecht", "Vitesse",
+        "Volendam", "PEC Zwolle", "Almere City"
+      ]
+    },
+    {
+      "league": "Primeira Liga",
+      "country": "Portugal",
+      "teams": [
+        "Arouca", "Benfica", "Boavista", "Braga", "Casa Pia", "Chaves",
+        "Estoril", "Farense", "Famalicão", "Gil Vicente", "Moreirense",
+        "Portimonense", "Porto", "Rio Ave", "Sporting CP", "Vitória SC"
+      ]
+    },
+    {
+      "league": "Jupiler Pro League",
+      "country": "Belgium",
+      "teams": [
+        "Anderlecht", "Antwerp", "Cercle Brugge", "Club Brugge", "Eupen",
+        "Genk", "Gent", "Kortrijk", "Leuven", "Mechelen", "Molenbeek",
+        "Sint-Truiden", "Standard Liège", "Union Saint-Gilloise", "Westerlo"
+      ]
+    },
+    {
+      "league": "Super Lig",
+      "country": "Turkey",
+      "teams": [
+        "Adana Demirspor", "Alanyaspor", "Ankaragücü", "Antalyaspor", "Beşiktaş",
+        "Çaykur Rizespor", "Fenerbahçe", "Galatasaray", "Gaziantep", "Hatayspor",
+        "İstanbul Başakşehir", "İstanbulspor", "Kasımpaşa", "Kayserispor",
+        "Konyaspor", "Pendikspor", "Samsunspor", "Trabzonspor"
+      ]
+    },
+    {
+      "league": "Scottish Premiership",
+      "country": "Scotland",
+      "teams": [
+        "Aberdeen", "Celtic", "Dundee", "Heart of Midlothian", "Hibernian",
+        "Kilmarnock", "Livingston", "Motherwell", "Rangers", "Ross County",
+        "St Johnstone", "St Mirren"
+      ]
+    }
+  ]
+}
