@@ -8,6 +8,7 @@ class AppTheme {
   static const Color warmOrange = Color(0xFFFE8D3B); // Warm orange
   static const Color brightOrange = Color(0xFFF01515); // Bright orange
   static const Color yellowAccent = Color(0xFFFFE111); // Yellow accent
+  static const Color lightLightBlue = Color(0xFF699AD0);
 
   // Neutral colors
   static const Color white = Colors.white;

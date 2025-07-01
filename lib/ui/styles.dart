@@ -52,4 +52,15 @@ class AppTypography {
       letterSpacing: -2.0,
     );
   }
+
+  static TextStyle toolbarText(BuildContext context) {
+    return TextStyle(
+      fontFamily: _fontFamily,
+      fontWeight: FontWeight.w600,
+      fontSize: FigmaHelper.px(context, 52),
+      height: 48.25 / 52, // line-height: 48.25px / font-size: 52px
+      letterSpacing: 0.0, // letter-spacing: 0px
+      color: AppTheme.white,
+    );
+  }
 }

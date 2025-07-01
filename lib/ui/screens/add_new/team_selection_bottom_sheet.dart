@@ -40,35 +40,10 @@ class _TeamSelectionBottomSheetState extends State<TeamSelectionBottomSheet> {
       height: bottomSheetHeight,
       decoration: const BoxDecoration(
         gradient: spinnerGradient,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(22),
-          topRight: Radius.circular(22),
-        ),
       ),
       child: Column(
         children: [
-          // Handle bar
-          Container(
-            margin: const EdgeInsets.only(top: 12),
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.3),
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-
-          // Title
-          Padding(
-            padding: EdgeInsets.only(
-              top: FigmaHelper.px(context, 24),
-              bottom: FigmaHelper.px(context, 20),
-            ),
-            child: Text(
-              'Select Team',
-              style: AppTypography.formLabel(context),
-            ),
-          ),
+          _getToolbar(context),
 
           // Teams list
           Expanded(
@@ -140,6 +115,36 @@ class _TeamSelectionBottomSheetState extends State<TeamSelectionBottomSheet> {
         ],
       ),
     );
+  }
+
+  Container _getToolbar(BuildContext context) {
+    return Container(
+          color: AppTheme.darkBlue,
+          child: Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Text(
+                    'Select a program from the list',
+                    style: AppTypography.toolbarText(context),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: 16),
+                child: GestureDetector(
+                  onTap: () => Navigator.of(context).pop(),
+                  child: Icon(
+                    Icons.close,
+                    color: const Color(0xFF699AD0),
+                    size: 16,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
   }
 }
 
