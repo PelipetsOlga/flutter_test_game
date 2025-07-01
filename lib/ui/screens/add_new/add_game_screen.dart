@@ -7,6 +7,7 @@ import '../../styles.dart';
 import '../../widgets/date_picker_spinner.dart';
 import '../../widgets/svg_icon.dart';
 import '../../widgets/text_spinner.dart';
+import '../../widgets/team_spinner.dart';
 import '../../widgets/toast.dart';
 import 'add_game_bloc.dart';
 
@@ -116,20 +117,20 @@ class AddGameView extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          TextSpinner(
-                            items: state.teams,
-                            selectedValue: state.selectedTeam1,
-                            onChanged: (value) {
+                          TeamSpinner(
+                            teams: state.teams,
+                            selectedTeam: state.selectedTeam1,
+                            onTeamSelected: (value) {
                               context
                                   .read<AddGameBloc>()
                                   .add(Team1Selected(value));
                             },
                           ),
                           const SizedBox(height: 10),
-                          TextSpinner(
-                            items: state.teams,
-                            selectedValue: state.selectedTeam2,
-                            onChanged: (value) {
+                          TeamSpinner(
+                            teams: state.teams,
+                            selectedTeam: state.selectedTeam2,
+                            onTeamSelected: (value) {
                               context
                                   .read<AddGameBloc>()
                                   .add(Team2Selected(value));
