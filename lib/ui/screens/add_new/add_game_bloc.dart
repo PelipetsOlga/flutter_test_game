@@ -59,6 +59,15 @@ class SwapTeamEvent extends AddGameEvent {
   List<Object?> get props => [team1, team2];
 }
 
+class DateSelected extends AddGameEvent {
+  final String date;
+
+  const DateSelected(this.date);
+
+  @override
+  List<Object?> get props => [date];
+}
+
 // States
 abstract class AddGameState extends Equatable {
   const AddGameState();
@@ -79,6 +88,7 @@ class AddGameLoaded extends AddGameState {
   final String? selectedLeague;
   final String? selectedTeam1;
   final String? selectedTeam2;
+  final String? selectedDate;
 
   const AddGameLoaded({
     required this.countries,
@@ -88,6 +98,7 @@ class AddGameLoaded extends AddGameState {
     this.selectedLeague,
     this.selectedTeam1,
     this.selectedTeam2,
+    this.selectedDate,
   });
 
   AddGameLoaded copyWith({
@@ -98,6 +109,7 @@ class AddGameLoaded extends AddGameState {
     String? selectedLeague,
     String? selectedTeam1,
     String? selectedTeam2,
+    String? selectedDate,
   }) {
     return AddGameLoaded(
       countries: countries,
@@ -107,6 +119,7 @@ class AddGameLoaded extends AddGameState {
       selectedLeague: selectedLeague,
       selectedTeam1: selectedTeam1,
       selectedTeam2: selectedTeam2,
+      selectedDate: selectedDate,
     );
   }
 
@@ -119,6 +132,7 @@ class AddGameLoaded extends AddGameState {
         selectedLeague,
         selectedTeam1,
         selectedTeam2,
+        selectedDate,
       ];
 }
 
@@ -142,6 +156,7 @@ class AddGameBloc extends Bloc<AddGameEvent, AddGameState> {
     on<Team1Selected>(_onTeam1Selected);
     on<Team2Selected>(_onTeam2Selected);
     on<SwapTeamEvent>(_onSwapTeamClicked);
+    on<DateSelected>(_onDateSelected);
   }
 
   Future<void> _onLoadCountries(
@@ -173,9 +188,10 @@ class AddGameBloc extends Bloc<AddGameEvent, AddGameState> {
           selectedCountry: event.country,
           leagues: leagues,
           teams: [],
-          selectedLeague: null,
-          selectedTeam1: null,
-          selectedTeam2: null,
+                  selectedLeague: null,
+        selectedTeam1: null,
+        selectedTeam2: null,
+        selectedDate: currentState.selectedDate,
         ));
       } catch (e) {
         emit(AddGameError(e.toString()));
@@ -198,6 +214,7 @@ class AddGameBloc extends Bloc<AddGameEvent, AddGameState> {
           teams: teams,
           selectedTeam1: null,
           selectedTeam2: null,
+          selectedDate: currentState.selectedDate,
         ));
       } catch (e) {
         emit(AddGameError(e.toString()));
@@ -216,6 +233,7 @@ class AddGameBloc extends Bloc<AddGameEvent, AddGameState> {
         selectedLeague: currentState.selectedLeague,
         selectedTeam1: event.team,
         selectedTeam2: currentState.selectedTeam1,
+        selectedDate: currentState.selectedDate,
       ));
     }
   }
@@ -231,6 +249,7 @@ class AddGameBloc extends Bloc<AddGameEvent, AddGameState> {
         selectedLeague: currentState.selectedLeague,
         selectedTeam1: currentState.selectedTeam1,
         selectedTeam2: event.team,
+        selectedDate: currentState.selectedDate,
       ));
     }
   }
@@ -247,6 +266,23 @@ class AddGameBloc extends Bloc<AddGameEvent, AddGameState> {
         selectedLeague: currentState.selectedLeague,
         selectedTeam1: event.team2,
         selectedTeam2: event.team1,
+        selectedDate: currentState.selectedDate,
+      ));
+    }
+  }
+
+  void _onDateSelected(DateSelected event, Emitter<AddGameState> emit) {
+    if (state is AddGameLoaded) {
+      final currentState = state as AddGameLoaded;
+      emit(currentState.copyWith(
+        countries: currentState.countries,
+        leagues: currentState.leagues,
+        teams: currentState.teams,
+        selectedCountry: currentState.selectedCountry,
+        selectedLeague: currentState.selectedLeague,
+        selectedTeam1: currentState.selectedTeam1,
+        selectedTeam2: currentState.selectedTeam2,
+        selectedDate: event.date,
       ));
     }
   }

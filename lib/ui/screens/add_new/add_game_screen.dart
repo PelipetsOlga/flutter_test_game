@@ -6,6 +6,7 @@ import '../../app_theme.dart';
 import '../../styles.dart';
 import '../../widgets/svg_icon.dart';
 import '../../widgets/text_spinner.dart';
+import '../../widgets/date_picker_spinner.dart';
 import 'add_game_bloc.dart';
 
 class AddGameScreenWidget extends StatelessWidget {
@@ -149,11 +150,10 @@ class AddGameView extends StatelessWidget {
                     style: AppTypography.formLabel(context),
                   ),
                   const SizedBox(height: 17),
-                  TextSpinner(
-                    items: ['Today', 'Tomorrow', 'Next Week'],
-                    selectedValue: null,
-                    onChanged: (value) {
-                      print('Selected date: $value');
+                  DatePickerSpinner(
+                    selectedDate: state.selectedDate,
+                    onDateSelected: (date) {
+                      context.read<AddGameBloc>().add(DateSelected(date));
                     },
                   ),
                 ],
