@@ -32,6 +32,16 @@ class _TextSpinnerState extends State<TextSpinner> {
   }
 
   @override
+  void didUpdateWidget(TextSpinner oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.selectedValue != widget.selectedValue) {
+      setState(() {
+        _selectedValue = widget.selectedValue;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (widget.items.isEmpty) {
       return meaninglessSpinner();

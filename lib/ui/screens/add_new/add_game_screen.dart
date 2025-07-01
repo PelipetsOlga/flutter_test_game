@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../di/injection_container.dart';
 import '../../app_theme.dart';
 import '../../styles.dart';
+import '../../widgets/svg_icon.dart';
 import '../../widgets/text_spinner.dart';
-import '../../../di/injection_container.dart';
 import 'add_game_bloc.dart';
 
 class AddGameScreenWidget extends StatelessWidget {
@@ -94,20 +96,52 @@ class AddGameView extends StatelessWidget {
                     style: AppTypography.formLabel(context),
                   ),
                   const SizedBox(height: 17),
-                  TextSpinner(
-                    items: state.teams,
-                    selectedValue: state.selectedTeam1,
-                    onChanged: (value) {
-                      context.read<AddGameBloc>().add(Team1Selected(value));
-                    },
-                  ),
-                  const SizedBox(height: 10),
-                  TextSpinner(
-                    items: state.teams,
-                    selectedValue: state.selectedTeam2,
-                    onChanged: (value) {
-                      context.read<AddGameBloc>().add(Team2Selected(value));
-                    },
+                  Stack(
+                    children: [
+                      Column(
+                        children: [
+                          TextSpinner(
+                            items: state.teams,
+                            selectedValue: state.selectedTeam1,
+                            onChanged: (value) {
+                              context.read<AddGameBloc>().add(Team1Selected(value));
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          TextSpinner(
+                            items: state.teams,
+                            selectedValue: state.selectedTeam2,
+                            onChanged: (value) {
+                              context.read<AddGameBloc>().add(Team2Selected(value));
+                            },
+                          ),
+                        ],
+                      ),
+                      Positioned(
+                        right: 0,
+                        top: 0,
+                        bottom: 0,
+                        child: Center(
+                          child: GestureDetector(
+                            onTap: () {
+                              context.read<AddGameBloc>().add(SwapTeamEvent(
+                                team1: state.selectedTeam1,
+                                team2: state.selectedTeam2,
+                              ));
+                            },
+                            child: Padding(
+                              padding:  EdgeInsets.only( right: FigmaHelper.px(context, 127)),
+                              child: CustomSvgIcon(
+                                assetPath: 'assets/icons/change_team_btn.svg',
+                                size: FigmaHelper.iconSize(context, 68),
+                                color: null,
+                                isSelected: true,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 40),
                   Text(

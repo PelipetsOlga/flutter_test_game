@@ -1,7 +1,7 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../domain/repo/team_repository.dart';
-import '../../../domain/model/league.dart';
 
 // Events
 abstract class AddGameEvent extends Equatable {
@@ -49,6 +49,16 @@ class Team2Selected extends AddGameEvent {
   List<Object?> get props => [team];
 }
 
+class SwapTeamEvent extends AddGameEvent {
+  final String? team1;
+  final String? team2;
+
+  const SwapTeamEvent({this.team1, this.team2});
+
+  @override
+  List<Object?> get props => [team1, team2];
+}
+
 // States
 abstract class AddGameState extends Equatable {
   const AddGameState();
@@ -81,22 +91,22 @@ class AddGameLoaded extends AddGameState {
   });
 
   AddGameLoaded copyWith({
-    List<String>? countries,
-    List<String>? leagues,
-    List<String>? teams,
+    required List<String> countries,
+    required List<String> leagues,
+    required List<String> teams,
     String? selectedCountry,
     String? selectedLeague,
     String? selectedTeam1,
     String? selectedTeam2,
   }) {
     return AddGameLoaded(
-      countries: countries ?? this.countries,
-      leagues: leagues ?? this.leagues,
-      teams: teams ?? this.teams,
-      selectedCountry: selectedCountry ?? this.selectedCountry,
-      selectedLeague: selectedLeague ?? this.selectedLeague,
-      selectedTeam1: selectedTeam1 ?? this.selectedTeam1,
-      selectedTeam2: selectedTeam2 ?? this.selectedTeam2,
+      countries: countries,
+      leagues: leagues,
+      teams: teams,
+      selectedCountry: selectedCountry,
+      selectedLeague: selectedLeague,
+      selectedTeam1: selectedTeam1,
+      selectedTeam2: selectedTeam2,
     );
   }
 
@@ -131,9 +141,11 @@ class AddGameBloc extends Bloc<AddGameEvent, AddGameState> {
     on<LeagueSelected>(_onLeagueSelected);
     on<Team1Selected>(_onTeam1Selected);
     on<Team2Selected>(_onTeam2Selected);
+    on<SwapTeamEvent>(_onSwapTeamClicked);
   }
 
-  Future<void> _onLoadCountries(LoadCountries event, Emitter<AddGameState> emit) async {
+  Future<void> _onLoadCountries(
+      LoadCountries event, Emitter<AddGameState> emit) async {
     emit(AddGameLoading());
     try {
       final countryLeagues = await _repository.getCountries();
@@ -148,13 +160,16 @@ class AddGameBloc extends Bloc<AddGameEvent, AddGameState> {
     }
   }
 
-  Future<void> _onCountrySelected(CountrySelected event, Emitter<AddGameState> emit) async {
+  Future<void> _onCountrySelected(
+      CountrySelected event, Emitter<AddGameState> emit) async {
     if (state is AddGameLoaded) {
       final currentState = state as AddGameLoaded;
       emit(AddGameLoading());
       try {
-        final leagues = await _repository.getLeaguesNamesByCountry(event.country);
+        final leagues =
+            await _repository.getLeaguesNamesByCountry(event.country);
         emit(currentState.copyWith(
+          countries: currentState.countries,
           selectedCountry: event.country,
           leagues: leagues,
           teams: [],
@@ -168,13 +183,17 @@ class AddGameBloc extends Bloc<AddGameEvent, AddGameState> {
     }
   }
 
-  Future<void> _onLeagueSelected(LeagueSelected event, Emitter<AddGameState> emit) async {
+  Future<void> _onLeagueSelected(
+      LeagueSelected event, Emitter<AddGameState> emit) async {
     if (state is AddGameLoaded) {
       final currentState = state as AddGameLoaded;
       emit(AddGameLoading());
       try {
         final teams = await _repository.getTeamsByLeague(event.league);
         emit(currentState.copyWith(
+          countries: currentState.countries,
+          selectedCountry: currentState.selectedCountry,
+          leagues: currentState.leagues,
           selectedLeague: event.league,
           teams: teams,
           selectedTeam1: null,
@@ -189,14 +208,46 @@ class AddGameBloc extends Bloc<AddGameEvent, AddGameState> {
   void _onTeam1Selected(Team1Selected event, Emitter<AddGameState> emit) {
     if (state is AddGameLoaded) {
       final currentState = state as AddGameLoaded;
-      emit(currentState.copyWith(selectedTeam1: event.team));
+      emit(currentState.copyWith(
+        countries: currentState.countries,
+        leagues: currentState.leagues,
+        teams: currentState.teams,
+        selectedCountry: currentState.selectedCountry,
+        selectedLeague: currentState.selectedLeague,
+        selectedTeam1: event.team,
+        selectedTeam2: currentState.selectedTeam1,
+      ));
     }
   }
 
   void _onTeam2Selected(Team2Selected event, Emitter<AddGameState> emit) {
     if (state is AddGameLoaded) {
       final currentState = state as AddGameLoaded;
-      emit(currentState.copyWith(selectedTeam2: event.team));
+      emit(currentState.copyWith(
+        countries: currentState.countries,
+        leagues: currentState.leagues,
+        teams: currentState.teams,
+        selectedCountry: currentState.selectedCountry,
+        selectedLeague: currentState.selectedLeague,
+        selectedTeam1: currentState.selectedTeam1,
+        selectedTeam2: event.team,
+      ));
     }
   }
-} 
+
+  void _onSwapTeamClicked(
+      SwapTeamEvent event, Emitter<AddGameState> emit) {
+    if (state is AddGameLoaded) {
+      final currentState = state as AddGameLoaded;
+      emit(currentState.copyWith(
+        countries: currentState.countries,
+        leagues: currentState.leagues,
+        teams: currentState.teams,
+        selectedCountry: currentState.selectedCountry,
+        selectedLeague: currentState.selectedLeague,
+        selectedTeam1: event.team2,
+        selectedTeam2: event.team1,
+      ));
+    }
+  }
+}
