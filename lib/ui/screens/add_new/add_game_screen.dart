@@ -4,9 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../di/injection_container.dart';
 import '../../app_theme.dart';
 import '../../styles.dart';
+import '../../widgets/date_picker_spinner.dart';
 import '../../widgets/svg_icon.dart';
 import '../../widgets/text_spinner.dart';
-import '../../widgets/date_picker_spinner.dart';
+import '../../widgets/toast.dart';
 import 'add_game_bloc.dart';
 
 class AddGameScreenWidget extends StatelessWidget {
@@ -24,6 +25,20 @@ class AddGameScreenWidget extends StatelessWidget {
 class AddGameView extends StatelessWidget {
   const AddGameView({super.key});
 
+  void _showSaveToast(BuildContext context, AddGameLoaded state) {
+    final List<String> gameParams = [];
+
+    gameParams.add('Country: ${state.selectedCountry ?? 'Not selected'}');
+    gameParams.add('League: ${state.selectedLeague ?? 'Not selected'}');
+    gameParams.add('Team 1: ${state.selectedTeam1 ?? 'Not selected'}');
+    gameParams.add('Team 2: ${state.selectedTeam2 ?? 'Not selected'}');
+    gameParams.add('Date: ${state.selectedDate ?? 'Not selected'}');
+
+    final message = 'Game is saved: ${gameParams.join(', ')}';
+
+    showToast(message, context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -36,7 +51,7 @@ class AddGameView extends StatelessWidget {
           left: FigmaHelper.px(context, 60),
           right: FigmaHelper.px(context, 60),
           top: FigmaHelper.px(context, 110),
-          bottom: FigmaHelper.px(context, 50),
+          // bottom: FigmaHelper.px(context, 50),
         ),
         child: BlocBuilder<AddGameBloc, AddGameState>(
           builder: (context, state) {
@@ -105,7 +120,9 @@ class AddGameView extends StatelessWidget {
                             items: state.teams,
                             selectedValue: state.selectedTeam1,
                             onChanged: (value) {
-                              context.read<AddGameBloc>().add(Team1Selected(value));
+                              context
+                                  .read<AddGameBloc>()
+                                  .add(Team1Selected(value));
                             },
                           ),
                           const SizedBox(height: 10),
@@ -113,7 +130,9 @@ class AddGameView extends StatelessWidget {
                             items: state.teams,
                             selectedValue: state.selectedTeam2,
                             onChanged: (value) {
-                              context.read<AddGameBloc>().add(Team2Selected(value));
+                              context
+                                  .read<AddGameBloc>()
+                                  .add(Team2Selected(value));
                             },
                           ),
                         ],
@@ -126,12 +145,13 @@ class AddGameView extends StatelessWidget {
                           child: GestureDetector(
                             onTap: () {
                               context.read<AddGameBloc>().add(SwapTeamEvent(
-                                team1: state.selectedTeam1,
-                                team2: state.selectedTeam2,
-                              ));
+                                    team1: state.selectedTeam1,
+                                    team2: state.selectedTeam2,
+                                  ));
                             },
                             child: Padding(
-                              padding:  EdgeInsets.only( right: FigmaHelper.px(context, 127)),
+                              padding: EdgeInsets.only(
+                                  right: FigmaHelper.px(context, 127)),
                               child: CustomSvgIcon(
                                 assetPath: 'assets/icons/change_team_btn.svg',
                                 size: FigmaHelper.iconSize(context, 68),
@@ -156,6 +176,7 @@ class AddGameView extends StatelessWidget {
                       context.read<AddGameBloc>().add(DateSelected(date));
                     },
                   ),
+                  _saveButton(context, state),
                 ],
               );
             }
@@ -168,6 +189,26 @@ class AddGameView extends StatelessWidget {
             );
           },
         ),
+      ),
+    );
+  }
+
+  Widget _saveButton(BuildContext context, AddGameLoaded state) {
+    return GestureDetector(
+      onTap: () {
+        if (state.selectedCountry != null &&
+            state.selectedLeague != null &&
+            state.selectedTeam1 != null &&
+            state.selectedTeam2 != null &&
+            state.selectedDate != null) {
+          _showSaveToast(context, state);
+        }
+      },
+      child: CustomSvgIcon(
+        assetPath: 'assets/icons/save_btn.svg',
+        // size: FigmaHelper.iconSize(context, 120),
+        color: null,
+        isSelected: false,
       ),
     );
   }
