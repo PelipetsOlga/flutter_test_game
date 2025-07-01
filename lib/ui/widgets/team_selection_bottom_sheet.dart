@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+
 import '../app_theme.dart';
 import '../gradients.dart';
-import '../styles.dart';
-import 'svg_icon.dart';
+import 'buttons.dart';
 
 class TeamSelectionBottomSheet extends StatefulWidget {
   final List<String> teams;
@@ -17,7 +17,8 @@ class TeamSelectionBottomSheet extends StatefulWidget {
   });
 
   @override
-  State<TeamSelectionBottomSheet> createState() => _TeamSelectionBottomSheetState();
+  State<TeamSelectionBottomSheet> createState() =>
+      _TeamSelectionBottomSheetState();
 }
 
 class _TeamSelectionBottomSheetState extends State<TeamSelectionBottomSheet> {
@@ -33,7 +34,7 @@ class _TeamSelectionBottomSheetState extends State<TeamSelectionBottomSheet> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final bottomSheetHeight = screenHeight * 0.75;
-    
+
     return Container(
       height: bottomSheetHeight,
       decoration: const BoxDecoration(
@@ -55,90 +56,126 @@ class _TeamSelectionBottomSheetState extends State<TeamSelectionBottomSheet> {
               borderRadius: BorderRadius.circular(2),
             ),
           ),
-          
-          // Title
-          Padding(
-            padding: EdgeInsets.only(
-              top: FigmaHelper.px(context, 24),
-              bottom: FigmaHelper.px(context, 20),
+
+          // Toolbar
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(
+              horizontal: FigmaHelper.px(context, 60),
+              vertical: FigmaHelper.px(context, 20),
             ),
-            child: Text(
-              'Select Team',
-              style: AppTypography.formLabel(context),
-            ),
-          ),
-          
-          // Teams list
-          Expanded(
-            child: ListView.builder(
-              itemCount: widget.teams.length,
-              itemBuilder: (context, index) {
-                final team = widget.teams[index];
-                final isSelected = team == _tempSelectedTeam;
-                
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _tempSelectedTeam = team;
-                    });
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.symmetric(
-                      horizontal: FigmaHelper.px(context, 20),
-                      vertical: FigmaHelper.px(context, 4),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Select a program from the list',
+                    style: TextStyle(
+                      fontFamily: 'Proxima Nova',
+                      fontWeight: FontWeight.w600,
+                      fontSize: FigmaHelper.px(context, 52),
+                      height: 1.0,
+                      letterSpacing: -0.02,
+                      color: Colors.white,
                     ),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: FigmaHelper.px(context, 20),
-                      vertical: FigmaHelper.px(context, 15),
-                    ),
-                    decoration: BoxDecoration(
-                      color: isSelected
-                          ? Colors.white.withOpacity(0.2)
-                          : Colors.transparent,
-                      borderRadius: BorderRadius.circular(FigmaHelper.px(context, 22)),
-                    ),
-                    child: Text(
-                      team,
-                      style: TextStyle(
-                        fontFamily: 'Proxima Nova',
-                        fontWeight: FontWeight.w600,
-                        fontSize: FigmaHelper.px(context, 52),
-                        height: 1.0,
-                        letterSpacing: -0.02,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: FigmaHelper.px(context, 50)),
+                  child: GestureDetector(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: Container(
+                      width: FigmaHelper.px(context, 27),
+                      height: FigmaHelper.px(context, 27),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF699AD0),
+                        borderRadius: BorderRadius.circular(
+                            FigmaHelper.px(context, 13.5)),
+                      ),
+                      child: const Icon(
+                        Icons.close,
                         color: Colors.white,
+                        size: 16,
                       ),
                     ),
                   ),
-                );
-              },
+                ),
+              ],
             ),
           ),
-          
-          // Apply button
+
+          // Teams list
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: FigmaHelper.px(context, 60),
+              ),
+              child: ListView.builder(
+                itemCount: widget.teams.length,
+                itemBuilder: (context, index) {
+                  final team = widget.teams[index];
+                  final isSelected = team == _tempSelectedTeam;
+
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _tempSelectedTeam = team;
+                      });
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      margin: EdgeInsets.only(
+                        bottom: FigmaHelper.px(context, 8),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: FigmaHelper.px(context, 20),
+                        vertical: FigmaHelper.px(context, 15),
+                      ),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? Colors.white.withOpacity(0.2)
+                            : Colors.transparent,
+                        borderRadius:
+                            BorderRadius.circular(FigmaHelper.px(context, 22)),
+                      ),
+                      child: Text(
+                        team,
+                        style: TextStyle(
+                          fontFamily: 'Proxima Nova',
+                          fontWeight: FontWeight.w600,
+                          fontSize: FigmaHelper.px(context, 52),
+                          height: 1.0,
+                          letterSpacing: -0.02,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+
+          // Apply button - pinned to bottom
           Container(
             width: double.infinity,
-            margin: EdgeInsets.all(FigmaHelper.px(context, 20)),
-            child: GestureDetector(
-              onTap: _tempSelectedTeam != null
+            padding: EdgeInsets.only(
+              left: FigmaHelper.px(context, 60),
+              right: FigmaHelper.px(context, 60),
+              top: FigmaHelper.px(context, 16),
+              bottom: FigmaHelper.px(context, 50),
+            ),
+            child: GamePrimaryButton(
+              onClick: _tempSelectedTeam != null
                   ? () {
                       if (_tempSelectedTeam != null) {
                         widget.onTeamSelected(_tempSelectedTeam!);
                         Navigator.of(context).pop();
                       }
                     }
-                  : null,
-              child: CustomSvgIcon(
-                assetPath: 'assets/icons/apply_btn.svg',
-                size: FigmaHelper.iconSize(context, 120),
-                color: null,
-                isSelected: false,
-              ),
+                  : () {},
+              title: "Apply",
             ),
           ),
-          
-          // Bottom padding for safe area
-          SizedBox(height: MediaQuery.of(context).padding.bottom),
         ],
       ),
     );
@@ -162,4 +199,4 @@ void showTeamSelectionBottomSheet({
       onTeamSelected: onTeamSelected,
     ),
   );
-} 
+}

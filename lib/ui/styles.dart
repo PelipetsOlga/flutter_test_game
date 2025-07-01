@@ -41,4 +41,15 @@ class AppTypography {
       color: Colors.white,
     );
   }
+
+  static TextStyle primaryButtonTitle(BuildContext context) {
+    return TextStyle(
+      color: Colors.white,
+      fontSize: FigmaHelper.px(context, 100),
+      fontWeight: FontWeight.w600,
+      fontStyle: FontStyle.italic,
+      height: 1.0,
+      letterSpacing: -2.0,
+    );
+  }
 }
