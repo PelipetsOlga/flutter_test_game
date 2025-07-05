@@ -61,31 +61,67 @@ class _TeamSelectionBottomSheetState extends State<TeamSelectionBottomSheet> {
                   },
                   child: Container(
                     width: double.infinity,
-                    margin: EdgeInsets.symmetric(
-                      horizontal: FigmaHelper.px(context, 20),
-                      vertical: FigmaHelper.px(context, 4),
-                    ),
+                    // margin: EdgeInsets.symmetric(
+                    //   horizontal: FigmaHelper.px(context, 20),
+                    //   vertical: FigmaHelper.px(context, 4),
+                    // ),
                     padding: EdgeInsets.symmetric(
-                      horizontal: FigmaHelper.px(context, 20),
-                      vertical: FigmaHelper.px(context, 15),
+                      horizontal: FigmaHelper.px(context, 63),
+                      vertical: FigmaHelper.px(context, 23),
                     ),
                     decoration: BoxDecoration(
-                      color: isSelected
-                          ? Colors.white.withOpacity(0.2)
-                          : Colors.transparent,
-                      borderRadius:
-                          BorderRadius.circular(FigmaHelper.px(context, 22)),
+                      color:
+                          isSelected ? AppTheme.darkBlue : AppTheme.lightBlue,
+                      // borderRadius:
+                      //     BorderRadius.circular(FigmaHelper.px(context, 22)),
                     ),
-                    child: Text(
-                      team,
-                      style: TextStyle(
-                        fontFamily: 'Proxima Nova',
-                        fontWeight: FontWeight.w600,
-                        fontSize: FigmaHelper.px(context, 52),
-                        height: 1.0,
-                        letterSpacing: -0.02,
-                        color: Colors.white,
-                      ),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                            right: FigmaHelper.px(context, 50),
+                          ),
+                          child: Container(
+                            width: FigmaHelper.px(context, 40),
+                            height: FigmaHelper.px(context, 40),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(2),
+                              border: Border.all(
+                                color: isSelected
+                                    ? Colors.white
+                                    : const Color(0xFF699AD0),
+                                width: FigmaHelper.px(context, 5),
+                              ),
+                            ),
+                            child: isSelected
+                                ? Center(
+                                    child: Container(
+                                      width: FigmaHelper.px(context, 21),
+                                      height: FigmaHelper.px(context, 21),
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFFF54524),
+                                        borderRadius: BorderRadius.circular(1),
+                                      ),
+                                    ),
+                                  )
+                                : null,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            team,
+                            style: TextStyle(
+                              fontFamily: 'Proxima Nova',
+                              fontWeight: FontWeight.w400,
+                              fontSize: FigmaHelper.px(context, 38.6),
+                              height: 48.25 / 38.6,
+                              // line-height: 48.25px
+                              letterSpacing: 0,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 );
@@ -119,32 +155,32 @@ class _TeamSelectionBottomSheetState extends State<TeamSelectionBottomSheet> {
 
   Container _getToolbar(BuildContext context) {
     return Container(
-          color: AppTheme.darkBlue,
-          child: Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Text(
-                    'Select a program from the list',
-                    style: AppTypography.toolbarText(context),
-                  ),
-                ),
+      color: AppTheme.darkBlue,
+      child: Row(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Text(
+                'Select a program from the list',
+                style: AppTypography.toolbarText(context),
               ),
-              Padding(
-                padding: EdgeInsets.only(right: 16),
-                child: GestureDetector(
-                  onTap: () => Navigator.of(context).pop(),
-                  child: Icon(
-                    Icons.close,
-                    color: const Color(0xFF699AD0),
-                    size: 16,
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
-        );
+          Padding(
+            padding: EdgeInsets.only(right: 16),
+            child: GestureDetector(
+              onTap: () => Navigator.of(context).pop(),
+              child: Icon(
+                Icons.close,
+                color: const Color(0xFF699AD0),
+                size: 16,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
