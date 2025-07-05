@@ -24,11 +24,27 @@ class TeamSelectionBottomSheet extends StatefulWidget {
 
 class _TeamSelectionBottomSheetState extends State<TeamSelectionBottomSheet> {
   String? _tempSelectedTeam;
+  String _searchQuery = '';
+  List<String> _filteredTeams = [];
 
   @override
   void initState() {
     super.initState();
     _tempSelectedTeam = widget.selectedTeam;
+    _filteredTeams = widget.teams;
+  }
+
+  void _filterTeams(String query) {
+    setState(() {
+      _searchQuery = query;
+      if (query.isEmpty) {
+        _filteredTeams = widget.teams;
+      } else {
+        _filteredTeams = widget.teams
+            .where((team) => team.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+      }
+    });
   }
 
   @override
@@ -45,12 +61,15 @@ class _TeamSelectionBottomSheetState extends State<TeamSelectionBottomSheet> {
         children: [
           _getToolbar(context),
 
+          // Search widget
+          _getSearchWidget(context),
+
           // Teams list
           Expanded(
             child: ListView.builder(
-              itemCount: widget.teams.length,
+              itemCount: _filteredTeams.length,
               itemBuilder: (context, index) {
-                final team = widget.teams[index];
+                final team = _filteredTeams[index];
                 final isSelected = team == _tempSelectedTeam;
 
                 return GestureDetector(
@@ -153,6 +172,105 @@ class _TeamSelectionBottomSheetState extends State<TeamSelectionBottomSheet> {
     );
   }
 
+  Container _getSearchWidget(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      color: AppTheme.lightBlue,
+      padding: EdgeInsets.symmetric(
+        horizontal: FigmaHelper.px(context, 60),
+        vertical: FigmaHelper.px(context, 60),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Stack(
+              children: [
+                TextField(
+                  onChanged: _filterTeams,
+                  style: TextStyle(
+                    fontFamily: 'Proxima Nova',
+                    fontWeight: FontWeight.w400,
+                    fontSize: FigmaHelper.px(context, 28.95),
+                    letterSpacing: 0.24,
+                    color: Colors.white,
+                  ),
+                  decoration: InputDecoration(
+                    suffixIcon: Icon(
+                      Icons.search,
+                      color: const Color(0xFFDFE3EA),
+                      size: FigmaHelper.px(context, 44),
+                    ),
+                    hintText: '',
+                    filled: true,
+                    fillColor: AppTheme.darkBlue,
+                    border: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.circular(FigmaHelper.px(context, 150)),
+                      borderSide: BorderSide.none,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.circular(FigmaHelper.px(context, 150)),
+                      borderSide: BorderSide.none,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.circular(FigmaHelper.px(context, 150)),
+                      borderSide: BorderSide.none,
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.circular(FigmaHelper.px(context, 150)),
+                      borderSide: BorderSide.none,
+                    ),
+                    disabledBorder: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.circular(FigmaHelper.px(context, 150)),
+                      borderSide: BorderSide.none,
+                    ),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: FigmaHelper.px(context, 72),
+                      vertical: FigmaHelper.px(context, 38),
+                    ),
+                  ),
+                ),
+                if (_searchQuery.isEmpty)
+                  Positioned.fill(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: FigmaHelper.px(context, 72),
+                        vertical: FigmaHelper.px(context, 52),
+                      ),
+                      child: RichText(
+                        text: TextSpan(
+                          style: TextStyle(
+                            fontFamily: 'Proxima Nova',
+                            fontWeight: FontWeight.w400,
+                            fontSize: FigmaHelper.px(context, 28.95),
+                            letterSpacing: 0.24,
+                            color: Colors.white,
+                          ),
+                          children: [
+                            TextSpan(text: 'Type it in manually, for example "'),
+                            TextSpan(
+                              text: 'Arsenal',
+                              style: TextStyle(fontWeight: FontWeight.w800),
+                            ),
+                            TextSpan(text: '"'),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          SizedBox(width: FigmaHelper.px(context, 15)),
+        ],
+      ),
+    );
+  }
+
   Container _getToolbar(BuildContext context) {
     return Container(
       color: AppTheme.darkBlue,
@@ -160,7 +278,9 @@ class _TeamSelectionBottomSheetState extends State<TeamSelectionBottomSheet> {
         children: [
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: EdgeInsets.symmetric(
+                  vertical: FigmaHelper.px(context, 41),
+                  horizontal: FigmaHelper.px(context, 60)),
               child: Text(
                 'Select a program from the list',
                 style: AppTypography.toolbarText(context),
